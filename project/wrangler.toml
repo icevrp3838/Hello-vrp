@@ -1,0 +1,14 @@
+name = "vrp-progress"
+compatibility_date = "2025-01-01"
+pages_build_output_dir = "."
+
+# Cloudflare D1 database binding.
+# 1) Create it once:   wrangler d1 create vrp-progress
+# 2) Paste the printed database_id below.
+[[d1_databases]]
+binding = "DB"
+database_name = "vrp-progress"
+database_id = "PASTE-YOUR-D1-DATABASE-ID-HERE"
+
+# Secret used to sign session tokens (set with: wrangler pages secret put AUTH_SECRET)
+# [vars]  -- prefer secrets over plaintext vars for anything sensitive
