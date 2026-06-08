@@ -19,7 +19,8 @@ window.VRPApi = (() => {
   async function probe() {
     try {
       const r = await fetch("/api/login", { method: "OPTIONS" });
-      mode = r.ok || r.status === 405 ? "api" : "local";
+      const ct = r.headers.get("content-type") || "";
+      mode = (r.ok || r.status === 405) && ct.includes("application/json") ? "api" : "local";
     } catch (e) { mode = "local"; }
     return mode;
   }
