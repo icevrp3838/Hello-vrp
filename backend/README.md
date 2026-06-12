@@ -21,7 +21,9 @@ project/
 │   └─ teachers.js      GET /api/teachers
 └─ backend/
     ├─ schema.sql        database tables
-    └─ seed.mjs          generates seed.sql (structure + demo users)
+    └─ seed.mjs          generates a complete seed.sql straight from data.jsx
+                         (levels, majors, 12 teachers, 41 courses, 31 offerings,
+                          28 students, 252 enrollments + attendance, demo users)
 ```
 
 ---
@@ -48,10 +50,15 @@ Copy the printed `database_id` into **`wrangler.toml`** (replace
 # tables
 wrangler d1 execute vrp-progress --remote --file=backend/schema.sql
 
-# generate + load structure, teachers, and demo users
+# generate the full dataset (read straight from data.jsx) + load it
 node backend/seed.mjs > backend/seed.sql
 wrangler d1 execute vrp-progress --remote --file=backend/seed.sql
 ```
+
+The seed mirrors exactly what the app shows in offline mode, so the live
+database starts fully populated: the ปวส. DBT cohort (28 students × 9 subjects)
+has real scores and 16 weeks of attendance, every offering links to a real
+teacher and major, and the demo `parent` account is linked to a real child.
 
 > The seed creates demo logins — **change these passwords before going live**:
 > `teacher/teacher123` · `parent/parent123` · `executive/executive123` · `academic/academic123`
