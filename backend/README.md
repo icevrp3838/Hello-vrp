@@ -28,6 +28,26 @@ project/
 
 ---
 
+## Quick start (one command)
+
+After `wrangler login`, deploy everything — database, schema, full seed, and the
+site — in a single step:
+
+```bash
+# macOS / Linux
+bash backend/deploy.sh
+
+# Windows (PowerShell)
+powershell -ExecutionPolicy Bypass -File backend\deploy.ps1
+```
+
+The script creates the D1 database, writes its id into `wrangler.toml`, loads the
+schema and seed, and runs `wrangler pages deploy`. Re-run anytime (pass `--seed` /
+`-Seed` to force a re-seed). Prefer the manual steps below if you want to see each
+stage. **You do not need WSL or bash on Windows — use the PowerShell script.**
+
+---
+
 ## 1. Prerequisites
 
 ```bash
@@ -51,7 +71,8 @@ Copy the printed `database_id` into **`wrangler.toml`** (replace
 wrangler d1 execute vrp-progress --remote --file=backend/schema.sql
 
 # generate the full dataset (read straight from data.jsx) + load it
-node backend/seed.mjs > backend/seed.sql
+# (passing a filename writes clean UTF-8 — safer than `>` on Windows PowerShell)
+node backend/seed.mjs backend/seed.sql
 wrangler d1 execute vrp-progress --remote --file=backend/seed.sql
 ```
 

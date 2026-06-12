@@ -37,7 +37,7 @@ wrangler d1 execute "$DB_NAME" --remote --file=backend/schema.sql
 
 echo "==> 4/5  Seeding data"
 if [ "$RESEED" = "--seed" ] || ! wrangler d1 execute "$DB_NAME" --remote --command "SELECT 1 FROM users LIMIT 1;" >/dev/null 2>&1; then
-  node backend/seed.mjs > backend/seed.sql
+  node backend/seed.mjs backend/seed.sql
   wrangler d1 execute "$DB_NAME" --remote --file=backend/seed.sql
 else
   echo "    users table already populated — skipping (pass --seed to force re-seed)"

@@ -134,4 +134,15 @@ for (const s of STUDENTS) {
 }
 
 out("\nCOMMIT;");
-console.log(lines.join("\n"));
+
+// Write to a file argument if given (UTF-8, no BOM — safe on Windows PowerShell
+// where `> file` would otherwise emit UTF-16 and corrupt the Thai text);
+// otherwise print to stdout for `node seed.mjs > seed.sql` on bash.
+const sql = lines.join("\n");
+const outFile = process.argv[2];
+if (outFile) {
+  fs.writeFileSync(outFile, sql, "utf8");
+  process.stderr.write(`wrote ${outFile} (${lines.length} statements)\n`);
+} else {
+  console.log(sql);
+}
